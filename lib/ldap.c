@@ -306,8 +306,8 @@ static CURLcode ldap_do(struct Curl_easy *data, bool *done)
   rc = _ldap_url_parse(data, conn, &ludp);
 #endif
   if(rc) {
-    failf(data, "LDAP local: %s", ldap_err2string(rc));
-    result = CURLE_LDAP_INVALID_URL;
+    failf(data, "Bad LDAP URL: %s", ldap_err2string(rc));
+    result = CURLE_URL_MALFORMAT;
     goto quit;
   }
 
