@@ -502,9 +502,16 @@ sub scanfile {
         }
         # check for '== NULL' in if/while conditions but not if the thing on
         # the left of it is a function call
-        if($nostr =~ /^(.*)(if|while)(\(.*[^)]) == NULL/) {
+        if($nostr =~ /^(.*)(if|while)(\(.*[^)]) [!=]= NULL/) {
             checkwarn("EQUALSNULL", $line,
                       length($1) + length($2) + length($3),
+                      $file, $l, "we prefer !variable instead of \"== NULL\" comparisons");
+        }
+
+        # check for 'NULL ==' in if/while conditions
+        if($nostr =~ /^(.*)(if|while)\(NULL [!=]=/) {
+            checkwarn("EQUALSNULL", $line,
+                      length($1) + length($2) + 1,
                       $file, $l, "we prefer !variable instead of \"== NULL\" comparisons");
         }
 

@@ -600,7 +600,7 @@ schannel_acquire_credential_handle(struct Curl_easy *data,
       datablob.pbData = (BYTE*)certdata;
       datablob.cbData = (DWORD)certsize;
 
-      if(data->set.ssl.key_passwd != NULL)
+      if(data->set.ssl.key_passwd)
         pwd_len = strlen(data->set.ssl.key_passwd);
       pszPassword = (WCHAR*)malloc(sizeof(WCHAR)*(pwd_len + 1));
       if(pszPassword) {
@@ -1191,7 +1191,7 @@ schannel_connect_step2(struct Curl_easy *data, struct connectdata *conn,
         }
 
         /* free obsolete buffer */
-        if(outbuf[i].pvBuffer != NULL) {
+        if(outbuf[i].pvBuffer) {
           s_pSecFn->FreeContextBuffer(outbuf[i].pvBuffer);
         }
       }
@@ -2230,7 +2230,7 @@ static int schannel_shutdown(struct Curl_easy *data, struct connectdata *conn,
   }
 
   /* free internal buffer for received encrypted data */
-  if(BACKEND->encdata_buffer != NULL) {
+  if(BACKEND->encdata_buffer) {
     Curl_safefree(BACKEND->encdata_buffer);
     BACKEND->encdata_length = 0;
     BACKEND->encdata_offset = 0;
@@ -2238,7 +2238,7 @@ static int schannel_shutdown(struct Curl_easy *data, struct connectdata *conn,
   }
 
   /* free internal buffer for received decrypted data */
-  if(BACKEND->decdata_buffer != NULL) {
+  if(BACKEND->decdata_buffer) {
     Curl_safefree(BACKEND->decdata_buffer);
     BACKEND->decdata_length = 0;
     BACKEND->decdata_offset = 0;
